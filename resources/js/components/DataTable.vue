@@ -131,14 +131,14 @@ const isEditModalOpen = ref(false)
 const userToEdit = ref<TableData | null>(null)
 const isLoading = ref(false)
 
-// Modifichiamo la funzione editUser per aprire la modale invece di reindirizzare
+
 const editUser = (user: TableData) => {
-  // Creiamo una copia per non modificare la tabella prima del salvataggio
+  
   userToEdit.value = { ...user } 
   isEditModalOpen.value = true
 }
 
-// Funzione per salvare le modifiche via API
+
 const handleUpdate = async () => {
   if (!userToEdit.value) return
   
@@ -155,7 +155,7 @@ const handleUpdate = async () => {
     })
     
     isEditModalOpen.value = false
-    window.location.reload() // Ricarica per vedere i dati aggiornati in tabella
+    window.location.reload() 
   } catch (error) {
     console.error(error)
     alert("Errore durante l'aggiornamento dei dati.")
@@ -446,8 +446,8 @@ const table = useVueTable({
               </TableRow>
             </TableBody>
           </Table>
-          
-          
+
+          <!-- Modale per la modifica dell'utente -->
           <Dialog :open="isEditModalOpen" @update:open="isEditModalOpen = $event">
   <DialogContent class="sm:max-w-[500px]">
     <DialogHeader>
