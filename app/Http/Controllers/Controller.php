@@ -13,10 +13,12 @@ abstract class Controller
     public function reset(Request $request)
     {
         $status = Password::reset(
+            
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
+                
                 $user->forceFill([
-                    'password' => Hash::make($password)
+                'password' => Hash::make($password)
                 ])->setRememberToken(Str::random(60))->save();
 
                 event(new PasswordReset($user));

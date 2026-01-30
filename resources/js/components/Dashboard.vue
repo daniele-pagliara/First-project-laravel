@@ -30,10 +30,10 @@ const props = defineProps<{
     limit: string
     reviewer: string
     first_name: string
-  last_name: string
-  email: string
-  address: string
-  phone: string
+    last_name: string
+    email: string
+    address: string
+    phone: string
   }>
   // data: any[]
   // accountData: {
@@ -326,17 +326,11 @@ const user = {
 </script>
 
 <template>
-  <SidebarProvider
-    :style=" {
-      '--sidebar-width': 'calc(var(--spacing) * 72)',
-      '--header-height': 'calc(var(--spacing) * 12)',
-    }"
-  >
-    <AppSidebar 
-    variant="inset"
-    :logout-url="logoutUrl"
-    :csrf-token="csrfToken"
-    :user="user"  />
+  <SidebarProvider :style="{
+    '--sidebar-width': 'calc(var(--spacing) * 72)',
+    '--header-height': 'calc(var(--spacing) * 12)',
+  }">
+    <AppSidebar variant="inset" :logout-url="logoutUrl" :csrf-token="csrfToken" :user="user" />
     <SidebarInset>
       <SiteHeader />
       <div class="flex flex-1 flex-col">

@@ -21,6 +21,7 @@ class AccountController extends Controller
                 'reviewer' => $account->nome,
             ];
         });
+
         return view('auth.pages.cerca-dati', compact('accountsForVue'));
     }
 
@@ -29,32 +30,42 @@ class AccountController extends Controller
     }
 
     public function store(Request $request) {
+        
         $validati = $request->validate([
             'nome' => 'required|string|max:255',
             'email' => 'required|email',
         ]);
+
         Account::create($validati);
+        
         return redirect()->route('pagine.home')->with('successo', 'Dati salvati!');
     }
 
     public function edit($id) {
+        
         $account = Account::findOrFail($id);
+        
         return view('pagine.modifica-dati', compact('account'));
     }
 
     public function update(Request $request, $id) {
+        
         $account = Account::findOrFail($id);
+        
         $dati = $request->validate([
             'nome' => 'required|string|max:255',
             'email' => 'required|email',
         ]);
+        
         $account->update($dati);
+        
         return redirect()->route('pagine.cerca-dati')->with('successo', 'Aggiornato!');
     }
 
-    public function destroy($id)
-    {
+    public function destroy($id){
+        
         $account = Account::findOrFail($id);
+        
         $account->delete(); // Questo attiverà automaticamente la Soft Delete
 
         return redirect()->back()->with('success', 'Account spostato nel cestino!');

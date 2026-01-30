@@ -28,7 +28,9 @@ class AuthController extends Controller
 
         // 1. Controlliamo se l'utente ha superato i 3 tentativi
         if (RateLimiter::tooManyAttempts($throttleKey, 3)) {
+
             $seconds = RateLimiter::availableIn($throttleKey);
+
             return back()->withErrors([
                 'email' => "Troppi tentativi di accesso. Riprova tra $seconds secondi."
             ])->withInput($request->only('email'));
@@ -36,10 +38,12 @@ class AuthController extends Controller
 
         // 2. Tentiamo il login vero e proprio
         if (Auth::attempt($request->only('email', 'password'), $request->has('remember'))) {
+
             // Se il login riesce, resettiamo il contatore dei tentativi
             RateLimiter::clear($throttleKey);
 
             $request->session()->regenerate();
+            $idLogged = Auth::id();
             return redirect()->route('pagine.home');
         }
 
@@ -53,9 +57,12 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+
         Auth::logout();
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect('/')->with('successo', 'Disconnesso!');
     }
 
@@ -87,6 +94,7 @@ class AuthController extends Controller
         ]);
 
         Auth::login($utente);
+
         return redirect()->route('pagine.home');
     }
 }
